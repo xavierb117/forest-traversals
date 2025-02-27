@@ -1,8 +1,108 @@
 import static org.junit.Assert.assertEquals;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.*;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TreeProblemsTest {
+  private final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+  private final PrintStream originalOut = System.out;
+  private PrintStream testOut;
+
+  @Before
+  public void setUpStreams() {
+    testOut = new PrintStream(new TeeOutputStream(originalOut, baos));
+    System.setOut(testOut);
+  }
+
+  @After
+  public void restoreStreams() {
+    System.setOut(originalOut);
+  }
+
+  // ============================
+  // postOrder (Node version) tests
+  // ============================
+
+  @Test
+  public void testPostOrderNode_NullTree() {
+    TreeProblems.postOrder(null);
+    assertEquals("A null Node tree should produce no output", "", baos.toString());
+  }
+
+  @Test
+  public void testPostOrderNode_SingleNode() {
+    Node<Integer> single = new Node<>(42);
+    TreeProblems.postOrder(single);
+    assertEquals("A single-node tree should print its value", "42\n", baos.toString());
+  }
+
+  @Test
+  public void testPostOrderNode_ComplexTree() {
+    Node<Integer> root = new Node<>(5);
+    Node<Integer> node3 = new Node<>(3);
+    Node<Integer> node9 = new Node<>(9);
+    Node<Integer> node8 = new Node<>(8);
+    root.children.add(node3);
+    root.children.add(node9);
+    root.children.add(node8);
+    Node<Integer> node4 = new Node<>(4);
+    Node<Integer> node1 = new Node<>(1);
+    Node<Integer> node2 = new Node<>(2);
+    node9.children.add(node4);
+    node9.children.add(node1);
+    node9.children.add(node2);
+
+    TreeProblems.postOrder(root);
+    assertEquals("Complex Node tree postorder traversal output is incorrect", "3\n4\n1\n2\n9\n8\n5\n", baos.toString());
+  }
+
+  // ============================
+  // postOrder (Map version) tests
+  // ============================
+
+  @Test
+  public void testPostOrderMap_NullTree() {
+    TreeProblems.postOrder(null, 0);
+    assertEquals("A null Map tree should produce no output", "", baos.toString());
+  }
+
+  @Test
+  public void testPostOrderMap_RootNotInTree() {
+    Map<Integer, List<Integer>> tree = new HashMap<>();
+    tree.put(1, List.of(2, 3));
+    tree.put(2, List.of());
+    tree.put(3, List.of());
+    TreeProblems.postOrder(tree, 99);
+    assertEquals("A tree that does not contain the root should produce no output", "", baos.toString());
+  }
+
+  @Test
+  public void testPostOrderMap_SingleNode() {
+    Map<Integer, List<Integer>> tree = new HashMap<>();
+    tree.put(42, List.of());
+    TreeProblems.postOrder(tree, 42);
+    assertEquals("A single-node Map tree should print its value", "42\n", baos.toString());
+  }
+
+  @Test
+  public void testPostOrderMap_ComplexTree() {
+    Map<Integer, List<Integer>> tree = new HashMap<>();
+    tree.put(5, List.of(3, 9, 8));
+    tree.put(3, List.of());
+    tree.put(8, List.of());
+    tree.put(9, List.of(4, 1, 2));
+    tree.put(4, List.of());
+    tree.put(1, List.of());
+    tree.put(2, List.of());
+
+    TreeProblems.postOrder(tree, 5);
+    assertEquals("Complex Map tree postorder traversal output is incorrect", "3\n4\n1\n2\n9\n8\n5\n", baos.toString());
+  }
 
   // =============================
   // Helper methods for Node trees
@@ -20,7 +120,6 @@ public class TreeProblemsTest {
    *                \
    *                 9
    * 
-   * Expected sum: 7 + 11 + 3 + 2 + 5 + (-1) + 9 = 36.
    */
   private Node<Integer> buildMixedIntegerTree() {
     Node<Integer> root = new Node<>(7);
@@ -185,5 +284,50 @@ public class TreeProblemsTest {
     tree.put("t6", List.of());
 
     assertEquals("maxDepth (Map) did not compute the correct depth", 4, TreeProblems.maxDepth(tree));
+  }
+
+  // ====================================================
+  // TeeOutputStream inner class for capturing output
+  // ====================================================
+  // Used for testing purposes so you can still see your print statements when debugging
+  // You do not need to modify this 
+  static class TeeOutputStream extends OutputStream {
+    private final OutputStream first;
+    private final OutputStream second;
+
+    public TeeOutputStream(OutputStream first, OutputStream second) {
+      this.first = first;
+      this.second = second;
+    }
+
+    @Override
+    public void write(int b) {
+      try {
+        first.write(b);
+        second.write(b);
+      } catch (Exception e) {
+        throw new RuntimeException("Error writing to TeeOutputStream", e);
+      }
+    }
+
+    @Override
+    public void flush() {
+      try {
+        first.flush();
+        second.flush();
+      } catch (Exception e) {
+        throw new RuntimeException("Error flushing TeeOutputStream", e);
+      }
+    }
+
+    @Override
+    public void close() {
+      try {
+        first.close();
+        second.close();
+      } catch (Exception e) {
+        throw new RuntimeException("Error closing TeeOutputStream", e);
+      }
+    }
   }
 }

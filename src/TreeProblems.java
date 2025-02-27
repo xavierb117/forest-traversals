@@ -4,6 +4,60 @@ import java.util.Map;
 public class TreeProblems {
 
   /*
+   postOrder (Node Version)
+   -----------
+   Given the root of a tree print out the values of the nodes in post-order.
+   Print each value on a separate line.
+
+   Example:
+   If the tree is:
+          5
+       /  |  \
+      3   9   8
+        / | \  
+       4  1  2
+   The output should be:
+   3
+   4
+   1
+   2
+   9
+   8
+   5
+
+   If the root is null, do nothing.
+   */
+  public static <T> void postOrder(Node<T> root) {
+  }
+
+  /*
+   postOrder (Node Version)
+   -----------
+   Given the root of a tree print out the values of the nodes in post-order.
+   Print each value on a separate line.
+   If the tree is null or does not contain the root, do nothing.
+
+   Example:
+   For a tree represented as:
+     5 -> [3, 9, 8]
+     3 -> []
+     9 -> [4, 1, 2]
+     4 -> []
+     1 -> []
+     2 -> []
+   The output should be:
+   3
+   4
+   1
+   2
+   9
+   8
+   5
+   */
+  public static <T> void postOrder(Map<T, List<T>> tree, T root) {
+  }
+
+  /*
    sumTree (Node Version)
    -----------
    Given a tree built with the Node class (with integer values), compute and return the sum of all the node values.
