@@ -13,12 +13,12 @@ public class TreeProblemsTest {
    * Structure:
    * 
    *             7
-   *       /     |      \
-   *    11       3       2
-   *             / \
-   *            5  -1
-   *                 \
-   *                  9
+   *          /  |  \
+   *        11   3    2
+   *            / \
+   *           5  -1
+   *                \
+   *                 9
    * 
    * Expected sum: 7 + 11 + 3 + 2 + 5 + (-1) + 9 = 36.
    */
@@ -150,6 +150,11 @@ public class TreeProblemsTest {
   public void testMaxDepthNode_SingleNode() {
     Node<String> single = new Node<>("solo");
     assertEquals("A single-node tree should have depth 1", 1, TreeProblems.maxDepth(single));
+  }
+
+  @Test
+  public void testMaxDepthNode_ComplexTree() {
+    assertEquals("Tree with 4 levels should have a depth of 4", 4, TreeProblems.maxDepth(buildMixedIntegerTree()));
   }
 
   // ============================
