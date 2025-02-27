@@ -18,7 +18,7 @@ public class TreeProblems {
    A null tree should return 0
   */
   public static int sumTree(Node<Integer> root) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    return -1;
   }
 
   /*
@@ -41,7 +41,7 @@ public class TreeProblems {
    Hint: There's a simple way to do this!
   */
   public static int sumTree(Map<Integer, List<Integer>> tree) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    return -1;
   }
 
   /*
@@ -63,8 +63,8 @@ public class TreeProblems {
 
    Hint: No recursion needed! Think about how you would do this by hand.
   */
-  public static int findRoot(Map<Integer, List<Integer>> tree) {
-    throw new UnsupportedOperationException("Not implemented yet");
+  public static <T> T findRoot(Map<T, List<T>> tree) {
+    return null;
   }
 
   /*
@@ -86,7 +86,7 @@ public class TreeProblems {
    
   */
   public static <T> int maxDepth(Node<T> root) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    return -1;
   }
 
   /*
