@@ -107,7 +107,7 @@ public class TreeProblemsTest {
   public void testFindRoot_SingleNode() {
     Map<Integer, List<Integer>> tree = new HashMap<>();
     tree.put(42, List.of());
-    assertEquals("Single-node tree: root should be 42", 42, TreeProblems.findRoot(tree));
+    assertEquals("Single-node tree: root should be 42", 42, TreeProblems.findRoot(tree).intValue());
   }
 
   @Test
@@ -120,7 +120,7 @@ public class TreeProblemsTest {
     tree.put(40, List.of());
     tree.put(99, List.of(8));
 
-    assertEquals("findRoot did not return the correct root for the provided example", 10, TreeProblems.findRoot(tree));
+    assertEquals("findRoot did not return the correct root for the provided example", 10, TreeProblems.findRoot(tree).intValue());
   }
 
   @Test
@@ -133,7 +133,7 @@ public class TreeProblemsTest {
     tree.put(2, List.of());
     tree.put(11, List.of());
 
-    assertEquals("findRoot did not identify the correct root in a mixed-order tree", 13, TreeProblems.findRoot(tree));
+    assertEquals("findRoot did not identify the correct root in a mixed-order tree", 13, TreeProblems.findRoot(tree).intValue());
   }
 
   // ============================
