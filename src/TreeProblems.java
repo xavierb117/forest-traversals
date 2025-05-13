@@ -187,7 +187,16 @@ public class TreeProblems {
    
   */
   public static <T> int maxDepth(Node<T> root) {
-    return -1;
+    if (root == null) return 0;
+
+    int depth = 0;
+    if (root.children != null) {
+      for (Node<T> child : root.children) {
+        depth = Math.max(depth, maxDepth(child));
+      }
+    }
+
+    return depth + 1;
   }
 
   /*
